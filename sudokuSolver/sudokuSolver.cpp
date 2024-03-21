@@ -49,9 +49,7 @@ void SudokuSolver::solve()
 {
     while(not isSudokuSolved)
     {
-        std::cout << "hasNumberBeenInsertedInLastIteration: " << hasNumberBeenInsertedInLastIteration << std::endl;
         insertionPerOneWhileLoopCounter = 0;
-        std::cout << "while loop begins" << std::endl;
         isSudokuSolved = true;
         for (uint8_t i = 0; i < sudokuSize; i++)
         {
@@ -65,18 +63,13 @@ void SudokuSolver::solve()
             }
         }
         isFirstIteration = false;
-        std::cout << "insertionPerOneWhileLoopCounter: " << (int)insertionPerOneWhileLoopCounter << std::endl;
         hasNumberBeenInsertedInLastIteration = insertionPerOneWhileLoopCounter == 0 ? false : true;
-        print();
     }
-    std::cout << "hasNumberBeenInsertedInLastIteration: " << hasNumberBeenInsertedInLastIteration << std::endl;
-    std::cout << "sudoku is solved" << std::endl;
     saveSolvedSudokuToFile();
 }
 
 void SudokuSolver::checkIfPossibleAndInsert(uint8_t i, uint8_t j)
 {
-    std::cout << "i: " << (int)i << " j: " << (int)j << std::endl;
     std::set possibleNumbers{1, 2, 3, 4, 5, 6, 7, 8, 9};
     for (uint8_t x = 0; x < sudokuSize; x++)
     {
@@ -105,27 +98,16 @@ void SudokuSolver::checkIfPossibleAndInsert(uint8_t i, uint8_t j)
         }
     }
 
-    for (const auto element : possibleNumbers)
+    const auto firstNonZeroNumberIt = std::find_if(possibleNumbers.begin(), possibleNumbers.end(), [](uint8_t number){ return number != 0;});
+    if (firstNonZeroNumberIt != possibleNumbers.end() and possibleNumbers.size() == 1)
     {
-        std::cout << element << " ";
-    }
-    std::cout << std::endl;
-
-    if (possibleNumbers.size() == 1)
-    {
-        for (const auto element : possibleNumbers)
-        {
-            insertionPerOneWhileLoopCounter++;
-            sudoku[i][j] = element;
-        }
+        insertionPerOneWhileLoopCounter++;
+        sudoku[i][j] = *firstNonZeroNumberIt;
     }
 
     if (not hasNumberBeenInsertedInLastIteration and not isSudokuSolved and not isFirstIteration)
     {
-        for (const auto element : possibleNumbers)
-        {
-            sudoku[i][j] = element;
-        }
+        sudoku[i][j] = *firstNonZeroNumberIt;
         insertionPerOneWhileLoopCounter++;
     }
 }
