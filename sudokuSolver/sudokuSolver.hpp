@@ -13,6 +13,7 @@ class SudokuSolver
 private:
     void readUnsolvedSudokuFromFile();
     void checkIfPossibleAndInsert(uint8_t i, uint8_t j);
+    void saveSolvedSudokuToFile();
 
     bool isSudokuSolved{false};
     bool hasNumberBeenInsertedInLastIteration{false};

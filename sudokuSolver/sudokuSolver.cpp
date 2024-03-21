@@ -31,6 +31,20 @@ void SudokuSolver::readUnsolvedSudokuFromFile()
     }
 }
 
+void SudokuSolver::saveSolvedSudokuToFile()
+{
+    std::ofstream file;
+    file.open("./solvedSudoku.txt");
+    for (const auto& line : sudoku)
+    {
+        for (const auto element : line)
+        {
+            file << (int)element << " ";
+        }
+        file << std::endl;
+    }
+}
+
 void SudokuSolver::solve()
 {
     while(not isSudokuSolved)
@@ -57,6 +71,7 @@ void SudokuSolver::solve()
     }
     std::cout << "hasNumberBeenInsertedInLastIteration: " << hasNumberBeenInsertedInLastIteration << std::endl;
     std::cout << "sudoku is solved" << std::endl;
+    saveSolvedSudokuToFile();
 }
 
 void SudokuSolver::checkIfPossibleAndInsert(uint8_t i, uint8_t j)
@@ -117,7 +132,7 @@ void SudokuSolver::checkIfPossibleAndInsert(uint8_t i, uint8_t j)
 
 void SudokuSolver::print()
 {
-    for (const auto line : sudoku)
+    for (const auto& line : sudoku)
     {
         for (const auto number : line)
         {
