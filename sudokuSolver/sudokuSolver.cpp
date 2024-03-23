@@ -48,20 +48,8 @@ void SudokuSolver::saveSolvedSudokuToFile()
 void SudokuSolver::solve()
 {
     setInitialConditions();
-
-    std::cout << " --- rowsBits ---" << std::endl;
-    for (const auto rowBits : rowsBits)
-    {
-        std::cout << rowBits.to_string() << std::endl;
-    }
-
-    std::cout << " --- colsBits ---" << std::endl;
-    for (const auto colBits : columnsBits)
-    {
-        std::cout << colBits.to_string() << std::endl;
-    }
-
     bool isSudokuSolved = solveRecurrsively(0, 0);
+    std::cout << "--- isSudokuSolved: " << (int)isSudokuSolved << " ---" << std::endl;
     print();
     saveSolvedSudokuToFile();
 }
@@ -69,7 +57,6 @@ void SudokuSolver::solve()
 bool SudokuSolver::solveRecurrsively(uint8_t startRow, uint8_t startCol)
 {
     std::pair<uint8_t, uint8_t> nextEmptyPosition{getNextEmptyPosition(startRow, startCol)};
-    std::cout << (int)nextEmptyPosition.first << " " << (int)nextEmptyPosition.second << std::endl;
 
     if (nextEmptyPosition.first == sudokuSize)
     {
@@ -83,8 +70,6 @@ bool SudokuSolver::solveRecurrsively(uint8_t startRow, uint8_t startCol)
     {
         return false;
     }
-
-    std::cout << currentPosBits.to_string() << std::endl;
 
     for (uint8_t bitId = 0; bitId < sudokuSize; bitId++)
     {
@@ -137,7 +122,6 @@ void SudokuSolver::setInitialConditions()
         {
             if (sudoku[row][col] != 0)
             {
-                std::cout << "row:" << (int)row << " col:" << (int)col << " cell: " << (int)getCellId(row, col) << " number:" << (int)sudoku[row][col] << std::endl;
                 rowsBits[row].set(sudoku[row][col] - 1);
                 columnsBits[col].set(sudoku[row][col] - 1);
                 cellsBits[getCellId(row, col)].set(sudoku[row][col] - 1);
