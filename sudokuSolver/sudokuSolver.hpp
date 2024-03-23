@@ -12,13 +12,8 @@ class SudokuSolver
 {
 private:
     void readUnsolvedSudokuFromFile();
-    void checkIfPossibleAndInsert(uint8_t i, uint8_t j);
     void saveSolvedSudokuToFile();
 
-    bool isSudokuSolved{false};
-    bool hasNumberBeenInsertedInLastIteration{false};
-    bool isFirstIteration{true};
-    uint8_t insertionPerOneWhileLoopCounter{0};
     std::array<std::array<uint8_t, sudokuSize>, sudokuSize> sudoku{};
 
 public:
